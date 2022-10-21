@@ -1,0 +1,21 @@
+note About Loss functions
+Simply:
+
+categorical_crossentropy (cce) produces a one-hot array containing the probable match for each category,
+sparse_categorical_crossentropy (scce) produces a category index of the most likely matching category.
+Consider a classification problem with 5 categories (or classes).
+
+In the case of cce, the one-hot target may be [0, 1, 0, 0, 0] and the model may predict [.2, .5, .1, .1, .1] (probably right)
+
+In the case of scce, the target index may be [1] and the model may predict: [.5].
+
+Consider now a classification problem with 3 classes.
+
+In the case of cce, the one-hot target might be [0, 0, 1] and the model may predict [.5, .1, .4] (probably inaccurate, given that it gives more probability to the first class)
+In the case of scce, the target index might be [0], and the model may predict [.5]
+Many categorical models produce scce output because you save space, but lose A LOT of information (for example, in the 2nd example, index 2 was also very close.) I generally prefer cce output for model reliability.
+
+There are a number of situations to use scce, including:
+
+when your classes are mutually exclusive, i.e. you don't care at all about other close-enough predictions,
+the number of categories is large to the prediction output becomes overwhelming.
