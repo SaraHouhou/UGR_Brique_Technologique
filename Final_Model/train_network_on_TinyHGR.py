@@ -13,8 +13,8 @@ warnings.filterwarnings('ignore')
 #  Data 
 #train_path = 'D:/DataSubSet/train'
 #valid_path = 'D:/DataSubSet/valid'
-train_path = 'C:/Users/shouhou/Downloads/TinyHGR/Train'
-valid_path = 'C:/Users/shouhou/Downloads/TinyHGR/Valid'
+train_path = 'C:/Users/shouhou/OneDrive - Capgemini/Documents/TinyHGR/train'
+valid_path = 'C:/Users/shouhou/OneDrive - Capgemini/Documents/TinyHGR/valid'
    # "call",
     # "five",
     # "four",
@@ -35,9 +35,9 @@ GESTURES_Names = [
 hardwarDetect.detectHardware(tf)
 
 # Visualize data
-dataDetails.DataCount_TinyHGR(train_path, valid_path)
-nb_train_samples = 2951
-nb_validation_samples = 2952
+#dataDetails.DataCount_TinyHGR(train_path, valid_path)
+nb_train_samples = 181065
+nb_validation_samples = 44779 
 
 dataDetails.VisualizeImages(train_path)
 
@@ -55,11 +55,11 @@ model_transfer_full= network.create_model(img_rows, img_cols, nbclasses=7)
 # overview a summary
 model_transfer_full.summary()
 # plot the model
-dot_img_file = 'C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/images/model_2.png'
+dot_img_file = 'C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/images/model_Tiny_HGR_with25.png'
 tf.keras.utils.plot_model(model_transfer_full, to_file=dot_img_file, show_shapes=True)
 
 
-checkpoint = ModelCheckpoint("C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/cp_hand_gesture_cnn_vgg16_TinyHGR.h5",
+checkpoint = ModelCheckpoint("C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/cp_hand_gesture_cnn_vgg16_TinyHGR_with25.h5",
                              monitor="val_loss",
                              mode="min",
                              save_best_only = True,
@@ -79,7 +79,7 @@ reduce_lr = ReduceLROnPlateau(monitor = 'val_loss',
                               min_delta = 0.0001)
 
 # CSVLoger logs epoch, acc, loss, val_acc, val_loss
-los_csv=CSVLogger('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/loss_hand_gesture_cnn_vgg16_TinyHGR.csv', separator=',', append=False )
+los_csv=CSVLogger('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/loss_hand_gesture_cnn_vgg16_TinyHGR_with25.csv', separator=',', append=False )
 
 # we put our call backs into a callback list
 callbacks = [earlystop, checkpoint, reduce_lr]
@@ -91,7 +91,7 @@ model_transfer_full.compile(loss='categorical_crossentropy',
               metrics=['accuracy'])
 
 
-epochs = 20
+epochs = 15
 
 # start training the whole thing, with a very slow learning rate:
 
@@ -104,12 +104,12 @@ history_vgg16 = model_transfer_full.fit_generator(
     validation_steps = nb_validation_samples // 16) 
 
 
-with open('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/historyVGG16_large_TinyHGR.txt', 'a+') as f:
+with open('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/historyVGG16_large_TinyHGR_with25.txt', 'a+') as f:
     print(history_vgg16.history, file=f)
 
 print('All Done!')
 
-model_transfer_full.save('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/my_model_TinyHGR.h5')
+model_transfer_full.save('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/weights/my_model_TinyHGR_with25.h5')
 
 
 Y_pred_cnn=confusionMetrics.classif_report(model_transfer_full, validation_generator, nb_validation_samples, batch_size)
@@ -122,7 +122,7 @@ class_names_CNN = list(class_labels.values())
 
 fig, (ax1) = plt.subplots(1, 1, figsize=(8, 8))
 
-figpath ='C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/images/heatmap_TinyHGR.png'
+figpath ='C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/images/heatmap_TinyHGR_with25.png'
 confusionMetrics.plot_heatmap(true_classes, Y_pred_cnn, class_names_CNN, ax1, title="CNN without data augmentation", figpath=figpath)  
 
 fig.tight_layout()

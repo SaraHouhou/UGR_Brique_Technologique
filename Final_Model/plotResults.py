@@ -15,7 +15,7 @@ def plotHistory(history_model, acc_title, loss_title):
   plt.plot(epochs, val_acc, 'r', label='Validation accuracy')
   plt.title(acc_title)
   plt.legend()
-  plt.savefig('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/images/accPlot.png')
+  plt.savefig('C:/Users/shouhou/testcode/UGR_Brique_Technologique/Final_Model/images/accPlot_Tiny_HGR_with25.png')
 
   plt.figure()
 
@@ -24,5 +24,5 @@ def plotHistory(history_model, acc_title, loss_title):
   plt.plot(epochs, val_loss, 'r', label='Validation loss')
   plt.title(loss_title)
   plt.legend()
-  plt.savefig('lossPlot.png')
+  plt.savefig('lossPlot_TinyHGR_with25.png')
   plt.show()
